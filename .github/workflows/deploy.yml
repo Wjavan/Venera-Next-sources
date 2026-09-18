@@ -1,0 +1,44 @@
+name: Deploy to jsDelivr
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate index.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const idx = JSON.parse(fs.readFileSync('index.json', 'utf8'));
+            console.log('Total sources:', idx.length);
+            idx.forEach((s, i) => {
+              if (!s.name || !s.fileName || !s.key || !s.version) {
+                console.error('Missing field at index', i, s);
+                process.exit(1);
+              }
+              if (!fs.existsSync(s.fileName)) {
+                console.error('Missing file:', s.fileName);
+                process.exit(1);
+              }
+            });
+            console.log('Validation passed');
+          "
+
+      - name: Purge jsDelivr cache
+        if: github.event_name == 'release'
+        run: |
+          curl -X PURGE "https://purge.jsdelivr.net/gh/${{ github.repository_owner }}/${{ github.event.repository.name }}@${{ github.ref_name }}/"
+          echo "Cache purged for release ${{ github.ref_name }}"
+
+      - name: Notify update
+        if: github.event_name == 'push'
+        run: |
+          echo "Pushed to main. jsDelivr will auto-update in ~24h."
+          echo "Manual purge: https://www.jsdelivr.com/tools/purge"
