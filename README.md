@@ -1,8 +1,5 @@
 # venera-next-sources
 
-[![jsDelivr](https://img.shields.io/badge/jsDelivr-CDN-blue?logo=jsdelivr)](https://www.jsdelivr.com/package/gh/yourname/venera-next-sources)
-[![License](https://img.shields.io/github/license/yourname/venera-next-sources)](LICENSE)
-
 VeneraNext 漫画源仓库，包含 60 余个免费漫画源。
 
 ## 使用方法
