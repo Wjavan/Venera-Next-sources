@@ -1,6 +1,6 @@
 # venera-next-sources
 
-VeneraNext 漫画源仓库，包含 60 余个免费漫画源。
+Venera / VeneraNext 漫画源仓库，包含 60 余个免费漫画源。
 
 ## 使用方法
 
