@@ -1,236 +1,690 @@
+/** @type {import('./_venera_.js')} */
+
 /**
- * Venera Comic Source Template
- * 
- * Usage:
- * 1. Copy this file and rename to your source name (e.g., mysource.js)
- * 2. Modify the class name, name, key, version, url
- * 3. Implement the required methods
- * 4. Add to index.json
- * 
- * Reference: https://github.com/venera-app/venera-configs
- * API Docs: https://github.com/CyrilPeng/Venera-Next/blob/main/doc/api/comic_source.en.md
+ * @typedef {Object} PageJumpTarget
+ * @property {string} page - The page name (search, category)
+ * @property {Object} attributes - The attributes of the page
+ *
+ * @example
+ * {
+ *     page: "search",
+ *     attributes: {
+ *         keyword: "example",
+ *     },
+ * }
  */
 
-class YourSourceName extends ComicSource {
-    // Required: Display name
-    name = ""
+class NewComicSource extends ComicSource {
+  // Note: The fields which are marked as [Optional] should be removed if not used
 
-    // Required: Unique identifier (don't change after publishing)
-    key = ""
+  // name of the source
+  name = ""
 
-    // Required: Extension version
-    version = "1.0.0"
+  // unique id of the source
+  key = ""
 
-    // Required: Minimum app version
-    minAppVersion = "1.6.0"
+  version = "1.0.0"
 
-    // Optional: Update URL (jsdelivr CDN)
-    url = ""
+  minAppVersion = "1.6.0"
+
+  // update url
+  url = ""
+
+  /**
+   * [Optional] init function
+   */
+  init() {
+
+  }
+
+  // [Optional] account related
+  account = {
+    /**
+     * [Optional] login with account and password, return any value to indicate success
+     * @param account {string}
+     * @param pwd {string}
+     * @returns {Promise<any>}
+     */
+    login: async (account, pwd) => {
+      /*
+      Use Network to send request
+      Use this.saveData to save data
+      `account` and `pwd` will be saved to local storage automatically if login success
+      ```
+      let res = await Network.post('https://example.com/login', {
+          'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }, `account=${account}&password=${pwd}`)
+
+      if(res.status == 200) {
+          let json = JSON.parse(res.body)
+          this.saveData('token', json.token)
+          return 'ok'
+      }
+
+      throw 'Failed to login'
+      ```
+      */
+
+    },
 
     /**
-     * Optional: Initialization
+     * [Optional] login with webview
      */
-    init() {
-        // Initialize settings, load cached data, etc.
-    }
+    loginWithWebview: {
+      url: "",
+      /**
+       * check login status.
+       * After successful login, the cookie will be automatically saved, and the localstorage can be retrieved using this.loadData("_localStorage").
+       * @param url {string} - current url
+       * @param title {string} - current title
+       * @returns {boolean} - return true if login success
+       */
+      checkStatus: (url, title) => {
 
-    // ============ Settings ============
-    settings = {
-        // Example settings
-        domain: {
-            title: "Domain",
-            type: "select",
-            options: [
-                { value: "https://example.com", text: "example.com" }
-            ],
-            default: "https://example.com"
+      },
+      /**
+       * [Optional] Callback when login success
+       */
+      onLoginSuccess: () => {
+
+      },
+    },
+
+    /**
+     * [Optional] login with cookies
+     * Note: If `this.account.login` is implemented, this will be ignored
+     */
+    loginWithCookies: {
+      fields: [
+        "ipb_member_id",
+        "ipb_pass_hash",
+        "igneous",
+        "star",
+      ],
+      /**
+       * Validate cookies, return false if cookies are invalid.
+       *
+       * Use `Network.setCookies` to set cookies before validate.
+       * @param values {string[]} - same order as `fields`
+       * @returns {Promise<boolean>}
+       */
+      validate: async (values) => {
+
+      },
+    },
+
+    /**
+     * logout function, clear account related data
+     */
+    logout: () => {
+      /*
+      ```
+      this.deleteData('token')
+      Network.deleteCookies('https://example.com')
+      ```
+      */
+    },
+
+    // {string?} - register url
+    registerWebsite: null
+  }
+
+  // explore page list
+  explore = [
+    {
+      // title of the page.
+      // title is used to identify the page, it should be unique
+      title: "",
+
+      /// multiPartPage or multiPageComicList or mixed
+      type: "multiPartPage",
+
+      /**
+       * load function
+       * @param page {number | null} - page number, null for `singlePageWithMultiPart` type
+       * @returns {{}}
+       * - for `multiPartPage` type, return [{title: string, comics: Comic[], viewMore: PageJumpTarget}]
+       * - for `multiPageComicList` type, for each page(1-based), return {comics: Comic[], maxPage: number}
+       * - for `mixed` type, use param `page` as index. for each index(0-based), return {data: [], maxPage: number?}, data is an array contains Comic[] or {title: string, comics: Comic[], viewMore: string?}
+       */
+      load: async (page) => {
+        /*
+        ```
+        let res = await Network.get("https://example.com")
+
+        if (res.status !== 200) {
+            throw `Invalid status code: ${res.status}`
         }
-    }
 
-    // Dynamic base URL
-    get baseUrl() {
-        return this.loadSetting("domain") || this.settings.domain.default
-    }
+        let data = JSON.parse(res.body)
 
-    // Common headers
-    get headers() {
+        function parseComic(comic) {
+            // ...
+
+            return new Comic({
+                id: id,
+                title: title,
+                subTitle: author,
+                cover: cover,
+                tags: tags,
+                description: description
+            })
+        }
+
+        let comics = {}
+        comics["hot"] = data["results"]["recComics"].map(parseComic)
+        comics["latest"] = data["results"]["newComics"].map(parseComic)
+
+        return comics
+        ```
+        */
+      },
+
+      /**
+       * Only use for `multiPageComicList` type.
+       * `loadNext` would be ignored if `load` function is implemented.
+       * @param next {string | null} - next page token, null if first page
+       * @returns {Promise<{comics: Comic[], next: string?}>} - next is null if no next page.
+       */
+      loadNext(next) {},
+    }
+  ]
+
+  // categories
+  category = {
+    /// title of the category page, used to identify the page, it should be unique
+    title: "",
+    parts: [
+      {
+        // title of the part
+        name: "Theme",
+
+        // fixed or random or dynamic
+        // if random, need to provide `randomNumber` field, which indicates the number of comics to display at the same time
+        // if dynamic, need to provide `loader` field, which indicates the function to load comics
+        type: "fixed",
+
+        // Remove this if type is dynamic
+        categories: [
+          {
+            label: "Category1",
+            /**
+             * @type {PageJumpTarget}
+             */
+            target: {
+              page: "category",
+              attributes: {
+                category: "category1",
+                param: null,
+              },
+            },
+          },
+        ],
+
+        // number of comics to display at the same time
+        // randomNumber: 5,
+
+        // load function for dynamic type
+        // loader: async () => {
+        //     return [
+        //          // ...
+        //     ]
+        // }
+      }
+    ],
+    // enable ranking page
+    enableRankingPage: false,
+  }
+
+  /// category comic loading related
+  categoryComics = {
+    /**
+     * load comics of a category
+     * @param category {string} - category name
+     * @param param {string?} - category param
+     * @param options {string[]} - options from optionList
+     * @param page {number} - page number
+     * @returns {Promise<{comics: Comic[], maxPage: number}>}
+     */
+    load: async (category, param, options, page) => {
+      /*
+      ```
+      let data = JSON.parse((await Network.get('...')).body)
+      let maxPage = data.maxPage
+
+      function parseComic(comic) {
+          // ...
+
+          return new Comic({
+              id: id,
+              title: title,
+              subTitle: author,
+              cover: cover,
+              tags: tags,
+              description: description
+          })
+      }
+
+      return {
+          comics: data.list.map(parseComic),
+          maxPage: maxPage
+      }
+      ```
+      */
+    },
+    // [Optional] provide options for category comic loading
+    optionList: [
+      {
+        // [Optional] The label will not be displayed if it is empty.
+        label: "",
+        // For a single option, use `-` to separate the value and text, left for value, right for text
+        options: [
+          "newToOld-New to Old",
+          "oldToNew-Old to New"
+        ],
+        // [Optional] {string[]} - show this option only when the category not in the list
+        notShowWhen: null,
+        // [Optional] {string[]} - show this option only when the category in the list
+        showWhen: null
+      }
+    ],
+    /**
+     * [Optional] load options dynamically. If `optionList` is provided, this will be ignored.
+     * @since 1.5.0
+     * @param category {string}
+     * @param param {string?}
+     * @return {Promise<{options: string[], label?: string}[]>} - return a list of option group, each group contains a list of options
+     */
+    optionLoader: async (category, param) => {
+      return [
+        {
+          // [Optional] The label will not be displayed if it is empty.
+          label: "",
+          // For a single option, use `-` to separate the value and text, left for value, right for text
+          options: [
+            "newToOld-New to Old",
+            "oldToNew-Old to New"
+          ],
+        }
+      ]
+    },
+    ranking: {
+      // For a single option, use `-` to separate the value and text, left for value, right for text
+      options: [
+        "day-Day",
+        "week-Week"
+      ],
+      /**
+       * load ranking comics
+       * @param option {string} - option from optionList
+       * @param page {number} - page number
+       * @returns {Promise<{comics: Comic[], maxPage: number}>}
+       */
+      load: async (option, page) => {
+        /*
+        ```
+        let data = JSON.parse((await Network.get('...')).body)
+        let maxPage = data.maxPage
+
+        function parseComic(comic) {
+            // ...
+
+            return new Comic({
+                id: id,
+                title: title,
+                subTitle: author,
+                cover: cover,
+                tags: tags,
+                description: description
+            })
+        }
+
         return {
-            "User-Agent": "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36",
-            "Referer": this.baseUrl + "/"
+            comics: data.list.map(parseComic),
+            maxPage: maxPage
         }
+        ```
+        */
+      }
     }
+  }
 
-    // ============ Helper Methods ============
-    fixUrl(url) {
-        if (!url) return ""
-        if (url.startsWith("http")) return url
-        if (url.startsWith("//")) return "https:" + url
-        return this.baseUrl.replace(/\/$/, "") + "/" + url.replace(/^\//, "")
-    }
+  /// search related
+  search = {
+    /**
+     * load search result
+     * @param keyword {string}
+     * @param options {(string | null)[]} - options from optionList
+     * @param page {number}
+     * @returns {Promise<{comics: Comic[], maxPage: number}>}
+     */
+    load: async (keyword, options, page) => {
 
-    parseComicItem(e) {
-        let title = "", cover = "", author = "", update = "", id = "", href = ""
-        try {
-            let a = e.querySelector("a")
-            href = a ? a.attributes["href"] : ""
-            title = e.querySelector("h3, h4, .title, .book-title") ? 
-                e.querySelector("h3, h4, .title, .book-title").text.trim() : (a ? a.text.trim() : "")
-            let img = e.querySelector("img, mip-img")
-            if (img) cover = img.attributes["src"] || img.attributes["data-src"] || ""
-            let authorEl = e.querySelector(".author, .book-author")
-            author = authorEl ? authorEl.text.trim() : ""
-            let updateEl = e.querySelector(".update, .update-time")
-            update = updateEl ? updateEl.text.trim() : ""
-        } catch (ex) {}
-        if (href) id = href.replace(/^\//, "").split("/").pop().replace(".html", "").replace(".htm", "")
-        return { id, title, subTitle: author, cover: this.fixUrl(cover), tags: [], description: update }
-    }
+    },
 
-    // ============ Search ============
-    search = {
-        load: async (keyword, options, page) => {
-            let url = `${this.baseUrl}/search?q=${encodeURIComponent(keyword)}&page=${page}`
-            let res = await Network.get(url, this.headers)
-            if (res.status !== 200) {
-                url = `${this.baseUrl}/search/${encodeURIComponent(keyword)}/${page}`
-                res = await Network.get(url, this.headers)
-            }
-            if (res.status !== 200) throw `Search failed: HTTP ${res.status}`
-            let doc = new HtmlDocument(res.body)
-            let items = doc.querySelectorAll(".comic-item, .search-item, .list-item, .comic-list li")
-            let comics = []
-            for (let item of items) {
-                let c = this.parseComicItem(item)
-                if (c.title && c.id) comics.push(c)
-            }
-            return { comics, maxPage: comics.length > 0 ? page + 1 : page }
+    /**
+     * load search result with next page token.
+     * The field will be ignored if `load` function is implemented.
+     * @param keyword {string}
+     * @param options {(string)[]} - options from optionList
+     * @param next {string | null}
+     * @returns {Promise<{comics: Comic[], next: string?}>}
+     */
+    loadNext: async (keyword, options, next) => {
+
+    },
+
+    // provide options for search
+    optionList: [
+      {
+        // [Optional] default is `select`
+        // type: select, multi-select, dropdown
+        // For select, there is only one selected value
+        // For multi-select, there are multiple selected values or none. The `load` function will receive a json string which is an array of selected values
+        // For dropdown, there is one selected value at most. If no selected value, the `load` function will receive a null
+        type: "select",
+        // For a single option, use `-` to separate the value and text, left for value, right for text
+        options: [
+          "0-time",
+          "1-popular"
+        ],
+        // option label
+        label: "sort",
+        // default selected options
+        default: null,
+      }
+    ],
+
+    // enable tags suggestions
+    enableTagsSuggestions: false,
+    // [Optional] handle tag suggestion click
+    onTagSuggestionSelected: (namespace, tag) => {
+      // return the text to insert into search box
+      return `\${namespace}:\${tag}`
+    },
+  }
+
+  /// favorite related
+  favorites = {
+    // whether support multi folders
+    multiFolder: false,
+    /**
+     * add or delete favorite.
+     * throw `Login expired` to indicate login expired, App will automatically re-login and re-add/delete favorite
+     * @param comicId {string}
+     * @param folderId {string}
+     * @param isAdding {boolean} - true for add, false for delete
+     * @param favoriteId {string?} - [Comic.favoriteId]
+     * @returns {Promise<any>} - return any value to indicate success
+     */
+    addOrDelFavorite: async (comicId, folderId, isAdding, favoriteId) => {
+
+    },
+    /**
+     * load favorite folders.
+     * throw `Login expired` to indicate login expired, App will automatically re-login retry.
+     * if comicId is not null, return favorite folders which contains the comic.
+     * @param comicId {string?}
+     * @returns {Promise<{folders: {[p: string]: string}, favorited: string[]}>} - `folders` is a map of folder id to folder name, `favorited` is a list of folder id which contains the comic
+     */
+    loadFolders: async (comicId) => {
+
+    },
+    /**
+     * add a folder
+     * @param name {string}
+     * @returns {Promise<any>} - return any value to indicate success
+     */
+    addFolder: async (name) => {
+
+    },
+    /**
+     * delete a folder
+     * @param folderId {string}
+     * @returns {Promise<void>} - return any value to indicate success
+     */
+    deleteFolder: async (folderId) => {
+
+    },
+    /**
+     * load comics in a folder
+     * throw `Login expired` to indicate login expired, App will automatically re-login retry.
+     * @param page {number}
+     * @param folder {string?} - folder id, null for non-multi-folder
+     * @returns {Promise<{comics: Comic[], maxPage: number}>}
+     */
+    loadComics: async (page, folder) => {
+
+    },
+    /**
+     * load comics with next page token
+     * @param next {string | null} - next page token, null for first page
+     * @param folder {string}
+     * @returns {Promise<{comics: Comic[], next: string?}>}
+     */
+    loadNext: async (next, folder) => {
+
+    },
+  }
+
+  /// single comic related
+  comic = {
+    /**
+     * load comic info
+     * @param id {string}
+     * @returns {Promise<ComicDetails>}
+     */
+    loadInfo: async (id) => {
+
+    },
+    /**
+     * [Optional] load thumbnails of a comic
+     *
+     * To render a part of an image as thumbnail, return `\${url}@x=\${start}-\${end}&y=\${start}-\${end}`
+     * - If width is not provided, use full width
+     * - If height is not provided, use full height
+     * @param id {string}
+     * @param next {string?} - next page token, null for first page
+     * @returns {Promise<{thumbnails: string[], next: string?}>} - `next` is next page token, null for no more
+     */
+    loadThumbnails: async (id, next) => {
+
+    },
+
+    /**
+     * rate a comic
+     * @param id
+     * @param rating {number} - [0-10] app use 5 stars, 1 rating = 0.5 stars,
+     * @returns {Promise<any>} - return any value to indicate success
+     */
+    starRating: async (id, rating) => {
+
+    },
+
+    /**
+     * load images of a chapter
+     * @param comicId {string}
+     * @param epId {string?}
+     * @returns {Promise<{images: string[]}>}
+     */
+    loadEp: async (comicId, epId) => {
+
+    },
+    /**
+     * [Optional] provide configs for an image loading
+     * @param url
+     * @param comicId
+     * @param epId
+     * @returns {ImageLoadingConfig | Promise<ImageLoadingConfig>}
+     */
+    onImageLoad: (url, comicId, epId) => {
+      return {}
+    },
+    /**
+     * [Optional] provide configs for a thumbnail loading
+     * @param url {string}
+     * @returns {ImageLoadingConfig | Promise<ImageLoadingConfig>}
+     *
+     * `ImageLoadingConfig.modifyImage` and `ImageLoadingConfig.onLoadFailed` will be ignored.
+     * They are not supported for thumbnails.
+     */
+    onThumbnailLoad: (url) => {
+      return {}
+    },
+    /**
+     * [Optional] like or unlike a comic
+     * @param id {string}
+     * @param isLike {boolean} - true for like, false for unlike
+     * @returns {Promise<void>}
+     */
+    like: async (id, isLike) => {
+
+    },
+    /**
+     * [Optional] load comments of a comic
+     * @param id {string}
+     * @param subId {string?}
+     * @param next {string?}
+     * @returns {Promise<{comments: Comment[], next: string?}>}
+     */
+    loadComments: async (id, subId, next) => {
+
+    },
+    /**
+     * [Optional] send comment
+     * @param comicId {string}
+     * @param subId {string?}
+     * @param content {string}
+     * @param replyTo {string?} - commentId to reply, not null when reply to a comment
+     * @returns {Promise<any>}
+     */
+    sendComment: async (comicId, subId, content, replyTo) => {
+
+    },
+    /**
+     * [Optional] like or unlike a comment
+     * @param comicId {string}
+     * @param subId {string?} - ComicDetails.subId
+     * @param commentId {string}
+     * @param isLike {boolean} - true for like, false for unlike
+     * @returns {Promise<void>}
+     */
+    likeComment: async (comicId, subId, commentId, isLike) => {
+
+    },
+    /**
+     * [Optional] vote a comment
+     * @param id {string} - comicId
+     * @param subId {string?} - ComicDetails.subId
+     * @param commentId {string}
+     * @param isUp {boolean} - true for up, false for down
+     * @param isCancel {boolean} - true for cancel, false for vote
+     * @returns {Promise<number>} - new score
+     */
+    voteComment: async (id, subId, commentId, isUp, isCancel) => {
+
+    },
+    // {string?} - regex string, used to identify comic id from user input
+    idMatch: null,
+    /**
+     * [Optional] Handle tag click event
+     * @param namespace {string}
+     * @param tag {string}
+     * @returns {PageJumpTarget}
+     */
+    onClickTag: (namespace, tag) => {
+      /*
+      ```
+      return new PageJumpTarget({
+          page: 'search',
+          keyword: tag,
+      })
+      ```
+       */
+    },
+    /**
+     * [Optional] Handle links
+     */
+    link: {
+      /**
+       * set accepted domains
+       */
+      domains: [
+        'example.com'
+      ],
+      /**
+       * parse url to comic id
+       * @param url {string}
+       * @returns {string | null}
+       */
+      linkToId: (url) => {
+
+      }
+    },
+    // enable tags translate
+    enableTagsTranslate: false,
+  }
+
+  /*
+  [Optional] settings related
+  Use this.loadSetting to load setting
+  ```
+  let setting1Value = this.loadSetting('setting1')
+  console.log(setting1Value)
+  ```
+   */
+  settings = {
+    setting1: {
+      // title
+      title: "Setting1",
+      // type: input, select, switch
+      type: "select",
+      // options
+      options: [
+        {
+          // value
+          value: 'o1',
+          // [Optional] text, if not set, use value as text
+          text: 'Option 1',
         },
-        optionList: []
+      ],
+      default: 'o1',
+    },
+    setting2: {
+      title: "Setting2",
+      type: "switch",
+      default: true,
+    },
+    setting3: {
+      title: "Setting3",
+      type: "input",
+      validator: null, // string | null, regex string
+      default: '',
+    },
+    setting4: {
+      title: "Setting4",
+      type: "callback",
+      buttonText: "Click me",
+      /**
+       * callback function
+       *
+       * If the callback function returns a Promise, the button will show a loading indicator until the promise is resolved.
+       * @returns {void | Promise<any>}
+       */
+      callback: () => {
+        // do something
+      }
     }
+  }
 
-    // ============ Explore ============
-    explore = [{
-        title: "Home",
-        type: "singlePageWithMultiPart",
-        load: async () => {
-            let res = await Network.get(this.baseUrl, this.headers)
-            if (res.status !== 200) throw `Home load failed: HTTP ${res.status}`
-            let doc = new HtmlDocument(res.body)
-            let parts = {}
-            for (let list of doc.querySelectorAll(".comic-list, .recommend-list, .list")) {
-                let tEl = list.querySelector("h3, h2, .title, .more")
-                let pt = tEl ? tEl.text.trim() : "推荐"
-                let cs = []
-                for (let i of list.querySelectorAll("li")) {
-                    let c = this.parseComicItem(i)
-                    if (c.title) cs.push(c)
-                }
-                if (cs.length > 0) parts[pt] = cs
-            }
-            if (Object.keys(parts).length === 0) {
-                let cs = []
-                for (let i of doc.querySelectorAll(".comic-item, .list-item")) {
-                    let c = this.parseComicItem(i)
-                    if (c.title) cs.push(c)
-                }
-                if (cs.length > 0) parts["推荐"] = cs
-            }
-            return parts
-        }
-    }]
-
-    // ============ Category ============
-    category = {
-        title: "Categories",
-        parts: [{
-            name: "All",
-            type: "fixed",
-            categories: [
-                { label: "Hot", target: { page: "category", attributes: { category: "热门", param: "hot" } } },
-                { label: "New", target: { page: "category", attributes: { category: "最新", param: "new" } } },
-                { label: "Completed", target: { page: "category", attributes: { category: "完结", param: "complete" } } }
-            ]
-        }],
-        enableRankingPage: false
-    }
-
-    categoryComics = {
-        load: async (category, param, options, page) => {
-            let url = param === "hot" ? `${this.baseUrl}/hot` :
-                      param === "new" ? `${this.baseUrl}/update` :
-                      param === "complete" ? `${this.baseUrl}/complete` : this.baseUrl
-            let res = await Network.get(url, this.headers)
-            if (res.status !== 200) throw `Category load failed: HTTP ${res.status}`
-            let doc = new HtmlDocument(res.body)
-            let cs = []
-            for (let i of doc.querySelectorAll(".comic-item, .list-item, .comic-list li")) {
-                let c = this.parseComicItem(i)
-                if (c.title) cs.push(c)
-            }
-            return { comics: cs, maxPage: 1 }
-        },
-        optionList: []
-    }
-
-    // ============ Comic Detail ============
-    comic = {
-        loadInfo: async (id) => {
-            let res = await Network.get(`${this.baseUrl}/comic/${id}`, this.headers)
-            if (res.status !== 200) {
-                let r2 = await Network.get(`${this.baseUrl}/${id}`, this.headers)
-                if (r2.status !== 200) throw `Detail load failed: HTTP ${r2.status}`
-                res = r2
-            }
-            let doc = new HtmlDocument(res.body)
-            let title = doc.querySelector("h1, .book-title h1") ? doc.querySelector("h1, .book-title h1").text.trim() : ""
-            let cover = ""
-            let coverEl = doc.querySelector(".book-cover img, img.cover")
-            if (coverEl) cover = coverEl.attributes["src"] || coverEl.attributes["data-src"] || ""
-            let intro = doc.querySelector(".book-intro, .intro, .description") ? doc.querySelector(".book-intro, .intro, .description").text.trim() : ""
-            let author = doc.querySelector(".author, .book-author") ? doc.querySelector(".author, .book-author").text.trim() : ""
-            let update = doc.querySelector(".update, .update-time") ? doc.querySelector(".update, .update-time").text.trim() : ""
-            let status = doc.querySelector(".status, .tag") ? doc.querySelector(".status, .tag").text.trim() : ""
-
-            let chapters = new Map()
-            let i = 0
-            for (let sel of ["ul.catalog-list > li > a", "#chapter-list li a", ".chapter-list li a"]) {
-                let its = doc.querySelectorAll(sel)
-                if (its.length > 0) {
-                    for (let a of its) {
-                        let t = a.text.trim()
-                        if (t) { chapters.set(i.toString(), t); i++ }
-                    }
-                    break
-                }
-            }
-
-            let tags = {}
-            if (author) tags["作者"] = [author]
-            return new ComicDetails({ title, cover: this.fixUrl(cover), description: intro, tags: { 作者: [author] }, chapters, recommend: [], updateTime: "" })
-        },
-
-        loadEp: async (comicId, epId) => {
-            let res = await Network.get(`${this.baseUrl}/read/${comicId}_${epId}`, this.headers)
-            if (res.status !== 200) throw `Chapter load failed: HTTP ${res.status}`
-            let html = res.body, images = []
-            let m = html.match(/cp\s*=\s*["'](\[.*?\])/);
-            if (m) { try { for (let img of JSON.parse(m[1].replace(/'/g, '"'))) { let s = String(img); if (s.startsWith("/")) s = this.fixUrl(s); images.push(s) } } catch (e) {} }
-            if (images.length === 0) {
-                let doc = new HtmlDocument(res.body)
-                for (let img of doc.querySelectorAll(".reader-area img, .chapter-img, #img-list img")) {
-                    let src = img.attributes["data-src"] || img.attributes["data-original"] || img.attributes["src"] || ""
-                    if (src && !src.includes("data:image")) images.push(this.fixUrl(src))
-                }
-            }
-            return { images }
-        },
-
-        onImageLoad: (url) => ({ headers: { "Referer": `https://${url.split("/")[2] || ""}/` } }),
-        onThumbnailLoad: (url) => ({}),
-        link: { domains: ["example.com"], linkToId: (url) => { let m = url.match(/\/comic\/([\d\w-]+)/) || url.match(/\/([\d\w-]+)(?:_\d+)?\.?html?$/); return m ? m[1] : null } },
-        idMatch: "^(\\d+|[\w-]+)$",
-        enableTagsTranslate: false
-    }
-
-    translation = { "zh_CN": {}, "zh_TW": {}, "en": {} }
+  // [Optional] translations for the strings in this config
+  translation = {
+    'zh_CN': {
+      'Setting1': '设置1',
+      'Setting2': '设置2',
+      'Setting3': '设置3',
+    },
+    'zh_TW': {},
+    'en': {}
+  }
 }

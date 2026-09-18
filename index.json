@@ -418,5 +418,96 @@
         "key": "zaimanhua",
         "version": "1.0.0",
         "description": "在漫画 (zaimanhua)"
+    },
+    {
+        "name": "百合会",
+        "key": "baihehui",
+        "fileName": "baihehui.js",
+        "version": "1.0.0",
+        "description": "百合会 (baihehui)"
+    },
+    {
+        "name": "GoDa漫画",
+        "key": "goda",
+        "fileName": "goda.js",
+        "version": "1.0.0",
+        "description": "GoDa漫画 (goda)"
+    },
+    {
+        "name": "嗨皮漫画",
+        "key": "happy",
+        "fileName": "happy.js",
+        "version": "1.0.0",
+        "description": "嗨皮漫画 (happy)"
+    },
+    {
+        "name": "JComic",
+        "key": "jcomic",
+        "fileName": "jcomic.js",
+        "version": "1.0.0",
+        "description": "JComic (jcomic)"
+    },
+    {
+        "name": "MYCOMIC",
+        "key": "mycomic",
+        "fileName": "mycomic.js",
+        "version": "1.0.0",
+        "description": "MYCOMIC (mycomic)"
+    },
+    {
+        "name": "少年Jump+",
+        "key": "shonen_jump_plus",
+        "fileName": "shonen_jump_plus.js",
+        "version": "1.0.0",
+        "description": "少年Jump+ (shonen_jump_plus)"
+    },
+    {
+        "name": "拷贝漫画",
+        "key": "copy_manga",
+        "fileName": "copy_manga.js",
+        "version": "1.0.0",
+        "description": "拷贝漫画 (copy_manga)"
+    },
+    {
+        "name": "爱看漫",
+        "key": "ikmmh",
+        "fileName": "ikmmh.js",
+        "version": "1.0.0",
+        "description": "爱看漫 (ikmmh)"
+    },
+    {
+        "name": "PicACG",
+        "key": "picacg",
+        "fileName": "picacg.js",
+        "version": "1.0.0",
+        "description": "PicACG (picacg)"
+    },
+    {
+        "name": "漫蛙吧",
+        "key": "manwaba",
+        "fileName": "manwaba.js",
+        "version": "1.0.0",
+        "description": "漫蛙吧 (manwaba)"
+    },
+    {
+        "name": "漫画人",
+        "key": "manhuaren",
+        "fileName": "manhuaren.js",
+        "version": "1.0.0",
+        "description": "漫画人 (manhuaren)"
+    },
+    {
+        "name": "漫画1234",
+        "key": "mh1234",
+        "fileName": "mh1234.js",
+        "version": "1.0.0",
+        "description": "漫画1234 (mh1234)"
+    },
+    {
+        "name": "漫小肆",
+        "key": "mxs",
+        "fileName": "mxs.js",
+        "version": "1.0.0",
+        "description": "漫小肆 (mxs)"
     }
 ]
