@@ -125,8 +125,12 @@ class Goda extends ComicSource {
 
   settings = {
     domains: {
-      title: "域名",
-      type: "input",
+      title: "选择域名",
+      type: "select",
+      options: [
+        { value: "godamh.com", text: "godamh.com (主站)" },
+        { value: "cn.godamanga.art", text: "cn.godamanga.art (备用)" }
+      ],
       default: "godamh.com"
     },
     api: {

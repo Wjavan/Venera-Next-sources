@@ -12,6 +12,23 @@ class ManHuaGui extends ComicSource {
 
   baseUrl = "https://www.manhuagui.com";
 
+  // 域名选择设置
+  settings = {
+    domains: {
+      title: "选择域名",
+      type: "select",
+      options: [
+        { value: "https://www.manhuagui.com", text: "manhuagui.com (主站)" },
+        { value: "https://tw.manhuagui.com", text: "tw.manhuagui.com (繁体)" }
+      ],
+      default: "https://www.manhuagui.com"
+    }
+  };
+
+  get baseUrl() {
+    return this.loadSetting("domains") || "https://www.manhuagui.com";
+  }
+
   account = {
     login: async (username, password) => {
       let headers = {

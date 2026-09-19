@@ -6,8 +6,21 @@ class YKMHSource extends ComicSource {
     minAppVersion = "1.4.0"
     url = "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ykmh.js"
 
+    // 域名选择设置
+    settings = {
+        domains: {
+            title: "选择域名",
+            type: "select",
+            options: [
+                { value: "https://www.ykmh.net", text: "ykmh.net (主站)" },
+                { value: "https://so.77mh.nl", text: "so.77mh.nl (搜索备用)" }
+            ],
+            default: "https://www.ykmh.net"
+        }
+    };
+
     get baseUrl() {
-        return "https://www.ykmh.net";
+        return this.loadSetting("domains") || "https://www.ykmh.net";
     }
 
     explore = [

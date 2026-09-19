@@ -1036,8 +1036,12 @@ class CopyManga extends ComicSource {
         },
         base_url: {
             title: "API地址",
-            type: "input",
-            validator: '^(?!:\\/\\/)(?=.{1,253})([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$',
+            type: "select",
+            options: [
+                { value: "api.copy2000.online", text: "api.copy2000.online (主站)" },
+                { value: "mapi.copy2000.site", text: "mapi.copy2000.site (备用1)" },
+                { value: "api.copy2000.online", text: "api.copy2000.online (备用2)" }
+            ],
             default: CopyManga.defaultApiUrl,
         },
         clear_device_info: {
