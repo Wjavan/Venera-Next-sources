@@ -124,5 +124,54 @@
         "fileName": "mangadex.js",
         "version": "1.2.0",
         "description": "MangaDex (mangadex)"
+    },
+    {
+        "name": "包子漫画",
+        "key": "baozi",
+        "fileName": "baozi.js",
+        "version": "1.1.6",
+        "description": "包子漫画 (baozi)"
+    },
+    {
+        "name": "CCC追漫台",
+        "key": "ccc",
+        "fileName": "ccc.js",
+        "version": "1.0.1",
+        "description": "CCC追漫台 (ccc)"
+    },
+    {
+        "name": "カドコミ",
+        "key": "comic_walker",
+        "fileName": "comic_walker.js",
+        "version": "1.0.1",
+        "description": "カドコミ (comic_walker)"
+    },
+    {
+        "name": "动漫屋",
+        "key": "dm5",
+        "fileName": "dm5.js",
+        "version": "1.0.0",
+        "description": "动漫屋 (dm5)"
+    },
+    {
+        "name": "好多漫画",
+        "key": "haoduoman",
+        "fileName": "haoduoman.js",
+        "version": "1.0.0",
+        "description": "好多漫画 (haoduoman)"
+    },
+    {
+        "name": "看漫画",
+        "key": "kanman",
+        "fileName": "kanman.js",
+        "version": "1.0.0",
+        "description": "看漫画 (kanman)"
+    },
+    {
+        "name": "再漫画",
+        "key": "zaimanhua",
+        "fileName": "zaimanhua.js",
+        "version": "1.0.2",
+        "description": "再漫画 (zaimanhua)"
     }
 ]
