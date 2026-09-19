@@ -96,5 +96,33 @@
         "fileName": "mxs.js",
         "version": "1.0.0",
         "description": "漫小肆 (mxs)"
+    },
+    {
+        "name": "漫画柜",
+        "key": "manhuagui",
+        "fileName": "manhuagui.js",
+        "version": "1.2.1",
+        "description": "漫画柜 (ManHuaGui)"
+    },
+    {
+        "name": "Comick",
+        "key": "comick",
+        "fileName": "comick.js",
+        "version": "1.2.0",
+        "description": "Comick (comick)"
+    },
+    {
+        "name": "优酷漫画",
+        "key": "ykmh",
+        "fileName": "ykmh.js",
+        "version": "1.0.0",
+        "description": "优酷漫画 (ykmh)"
+    },
+    {
+        "name": "MangaDex",
+        "key": "mangadex",
+        "fileName": "mangadex.js",
+        "version": "1.2.0",
+        "description": "MangaDex (mangadex)"
     }
 ]
