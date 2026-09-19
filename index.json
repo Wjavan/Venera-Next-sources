@@ -236,5 +236,173 @@
         "fileName": "colamanga.js",
         "version": "1.0.0",
         "description": "Colamanga"
+    },
+    {
+        "name": "nhentai",
+        "key": "nhentai",
+        "fileName": "nhentai.js",
+        "version": "1.1.0",
+        "description": "nhentai (R18)"
+    },
+    {
+        "name": "紳士漫畫",
+        "key": "wnacg",
+        "fileName": "wnacg.js",
+        "version": "1.0.5",
+        "description": "紳士漫畫 (R18), 不能使用時請嘗試更換URL"
+    },
+    {
+        "name": "ehentai",
+        "key": "ehentai",
+        "fileName": "ehentai.js",
+        "version": "1.2.0",
+        "description": "ehentai (R18)"
+    },
+    {
+        "name": "禁漫天堂",
+        "key": "jm",
+        "fileName": "jm.js",
+        "version": "1.4.0",
+        "description": "禁漫天堂 (R18), 不能使用時請嘗試切換分流"
+    },
+    {
+        "name": "hitomi.la",
+        "key": "hitomi",
+        "fileName": "hitomi.js",
+        "version": "1.1.2",
+        "description": "hitomi.la (R18)"
+    },
+    {
+        "name": "H-Comic",
+        "key": "hcomic",
+        "fileName": "hcomic.js",
+        "version": "1.0.0",
+        "description": "H-Comic (R18)"
+    },
+    {
+        "name": "18漫画",
+        "key": "mh18",
+        "fileName": "mh18.js",
+        "version": "1.0.0",
+        "description": "18漫画 (R18)"
+    },
+    {
+        "name": "热辣漫画",
+        "key": "hot_manga",
+        "fileName": "hot_manga.js",
+        "version": "1.0.0",
+        "description": "热辣漫画 (R18)"
+    },
+    {
+        "name": "天天看漫画",
+        "key": "ttkmh",
+        "fileName": "ttkmh.js",
+        "version": "1.0.0",
+        "description": "天天看漫画 (ttkmh)"
+    },
+    {
+        "name": "大树漫画",
+        "key": "dashumanhua",
+        "fileName": "dashumanhua.js",
+        "version": "1.0.0",
+        "description": "大树漫画 (dashumanhua)"
+    },
+    {
+        "name": "漫画鱼",
+        "key": "manhuayu",
+        "fileName": "manhuayu.js",
+        "version": "1.0.0",
+        "description": "漫画鱼 (manhuayu)"
+    },
+    {
+        "name": "入漫画",
+        "key": "rumanhua",
+        "fileName": "rumanhua.js",
+        "version": "1.0.0",
+        "description": "入漫画 (rumanhua)"
+    },
+    {
+        "name": "扑飞漫画",
+        "key": "pufeimh",
+        "fileName": "pufeimh.js",
+        "version": "1.0.0",
+        "description": "扑飞漫画 (pufeimh)"
+    },
+    {
+        "name": "百年漫画",
+        "key": "bainianmh2",
+        "fileName": "bainianmh2.js",
+        "version": "1.0.0",
+        "description": "百年漫画 (bainianmh) - 新版"
+    },
+    {
+        "name": "好多漫画",
+        "key": "haoduoman2",
+        "fileName": "haoduoman2.js",
+        "version": "1.0.0",
+        "description": "好多漫画 (haoduoman) - 新版"
+    },
+    {
+        "name": "嗨皮漫画",
+        "key": "happy2",
+        "fileName": "happy2.js",
+        "version": "1.0.0",
+        "description": "嗨皮漫画 (happy) - 新版"
+    },
+    {
+        "name": "包子漫画",
+        "key": "baozi2",
+        "fileName": "baozi2.js",
+        "version": "1.0.0",
+        "description": "包子漫画 (baozi) - 新版"
+    },
+    {
+        "name": "漫画柜繁体",
+        "key": "manhuaguitw",
+        "fileName": "manhuaguitw.js",
+        "version": "1.0.0",
+        "description": "漫画柜繁体 (manhuagui tw)"
+    },
+    {
+        "name": "咪咕动漫",
+        "key": "migudm",
+        "fileName": "migudm.js",
+        "version": "1.0.0",
+        "description": "咪咕动漫 (migudm)"
+    },
+    {
+        "name": "动漫之家",
+        "key": "dmzj",
+        "fileName": "dmzj.js",
+        "version": "1.0.0",
+        "description": "动漫之家 (dmzj)"
+    },
+    {
+        "name": "古风漫画",
+        "key": "gufengmh",
+        "fileName": "gufengmh.js",
+        "version": "1.0.0",
+        "description": "古风漫画 (gufengmh)"
+    },
+    {
+        "name": "有妖气",
+        "key": "u17",
+        "fileName": "u17.js",
+        "version": "1.0.0",
+        "description": "有妖气 (u17)"
+    },
+    {
+        "name": "MangaDex",
+        "key": "mangadex2",
+        "fileName": "mangadex2.js",
+        "version": "1.0.0",
+        "description": "MangaDex (需登录)"
+    },
+    {
+        "name": "Komiic",
+        "key": "komiic2",
+        "fileName": "komiic2.js",
+        "version": "1.0.0",
+        "description": "Komiic (JS渲染)"
     }
 ]
