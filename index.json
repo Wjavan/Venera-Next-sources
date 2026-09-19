@@ -1,26 +1,5 @@
 [
     {
-        "name": "168漫画",
-        "fileName": "168mh.js",
-        "key": "168mh",
-        "version": "1.0.0",
-        "description": "168漫画 (168mh)"
-    },
-    {
-        "name": "522漫画",
-        "fileName": "522mh.js",
-        "key": "522mh",
-        "version": "1.0.0",
-        "description": "522漫画 (522mh)"
-    },
-    {
-        "name": "92漫画",
-        "fileName": "92mh.js",
-        "key": "92mh",
-        "version": "1.0.0",
-        "description": "92漫画 (92mh)"
-    },
-    {
         "name": "ACG456",
         "fileName": "acg456.js",
         "key": "acg456",
