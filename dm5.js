@@ -2,7 +2,7 @@
 class DM5 extends ComicSource {
   name = "动漫屋";
   key = "dm5";
-  version = "1.0.0";
+  version = "1.0.1";
   minAppVersion = "1.6.0";
   url = "https://cdn.jsdelivr.net/gh/Wjavan/venera-next-sources@main/dm5.js";
 
@@ -29,28 +29,31 @@ class DM5 extends ComicSource {
     };
   }
 
-  parseComicList(items) {
-    const comics = [];
-    for (let item of items) {
-      const link = item.querySelector("a");
-      if (!link) continue;
-      const href = link.attributes.href;
-      const id = href.split("/").pop().replace(".html", "");
-      const title = item.querySelector("h3, .title, .book-title")?.text?.trim() || link.text.trim();
-      const cover = item.querySelector("img")?.attributes?.["data-src"] || item.querySelector("img")?.attributes?.src;
-      const author = item.querySelector(".author, .book-author")?.text?.trim() || "";
-      const update = item.querySelector(".update, .update-time, .chapter")?.text?.trim() || "";
-      if (id && title) {
-        comics.push(new Comic({
-          id, title,
-          subTitle: author,
-          cover: this.fixUrl(cover),
-          tags: [],
-          description: update
-        }));
-      }
+  parseComic(item) {
+    const link = item.querySelector("a");
+    if (!link) return null;
+    const href = link.attributes.href;
+    // 处理两种链接格式: /manhua-xxx/ 和 /m123456/
+    let id = href;
+    if (href.includes("/manhua-")) {
+      id = href.split("/manhua-")[1].split("/")[0];
+    } else if (href.includes("/m")) {
+      id = href.split("/m")[1].split("/")[0];
+    } else {
+      id = href.split("/").pop().replace(".html", "");
     }
-    return comics;
+    const title = item.querySelector(".manga-list-2-title, .manga-book-list-main-title, .title, .new-search-list-content .left")?.text?.trim() || link.text.trim();
+    const cover = item.querySelector("img")?.attributes?.["data-src"] || item.querySelector("img")?.attributes?.src || item.querySelector("img")?.attributes?.["src"];
+    const author = item.querySelector(".author, .book-author")?.text?.trim() || "";
+    const update = item.querySelector(".manga-list-1-tip, .new-search-list-right")?.text?.trim() || "";
+    if (!id || !title) return null;
+    return new Comic({
+      id, title,
+      subTitle: author,
+      cover: this.fixUrl(cover),
+      tags: [],
+      description: update
+    });
   }
 
   fixUrl(u) {
@@ -64,20 +67,25 @@ class DM5 extends ComicSource {
     title: "动漫屋",
     type: "multiPartPage",
     load: async (page) => {
-      let url = `${this.baseUrl}/`;
+      let url = page === 1 ? this.baseUrl : `${this.baseUrl}/page/${page}/`;
       let res = await Network.get(url, this.headers);
       if (res.status !== 200) throw `首页加载失败: ${res.status}`;
       let doc = new HtmlDocument(res.body);
       const result = {};
-      // 热门推荐
-      let hotItems = doc.querySelectorAll(".hot-list li, .recommend-list li, .book-list li, .comic-item");
+      // 精品书单
+      let hotItems = doc.querySelectorAll(".manga-book-list-main");
       if (hotItems.length > 0) {
-        result["热门推荐"] = this.parseComicList(hotItems);
+        result["精品书单"] = hotItems.map(e => this.parseComic(e)).filter(Boolean);
       }
-      // 最新更新
-      let newItems = doc.querySelectorAll(".new-list li, .update-list li, .latest-list li");
+      // 强势安利
+      let newItems = doc.querySelectorAll(".manga-list-1 li");
       if (newItems.length > 0) {
-        result["最新更新"] = this.parseComicList(newItems);
+        result["强势安利"] = newItems.map(e => this.parseComic(e)).filter(Boolean);
+      }
+      // 排行榜
+      let rankItems = doc.querySelectorAll(".rank-list li, .rank-list-cover");
+      if (rankItems.length > 0) {
+        result["排行榜"] = rankItems.map(e => this.parseComic(e)).filter(Boolean);
       }
       return result;
     }
@@ -91,31 +99,42 @@ class DM5 extends ComicSource {
       let res = await Network.get(url, this.headers);
       if (res.status !== 200) throw `搜索失败: ${res.status}`;
       let doc = new HtmlDocument(res.body);
-      let items = doc.querySelectorAll(".search-list li, .book-list li, .comic-item, .result-item");
+      let items = doc.querySelectorAll(".new-search-list-item");
       return {
-        comics: this.parseComicList(items),
-        maxPage: page + 1 // 简单分页
+        comics: items.map(e => this.parseComic(e)).filter(Boolean),
+        maxPage: page + 1
       };
     }
   };
 
   comic = {
     loadInfo: async (id) => {
+      // 尝试两种详情页 URL 格式
       let url = `${this.baseUrl}/manhua-${id}/`;
       let res = await Network.get(url, this.headers);
+      if (res.status !== 200) {
+        url = `${this.baseUrl}/${id}/`;
+        res = await Network.get(url, this.headers);
+      }
       if (res.status !== 200) throw `详情加载失败: ${res.status}`;
       let doc = new HtmlDocument(res.body);
       
-      let title = doc.querySelector(".book-title, h1, .detail-title")?.text?.trim() || id;
-      let cover = doc.querySelector(".book-cover img, .detail-cover img")?.attributes?.src || "";
-      let author = doc.querySelector(".book-author, .author, .detail-author")?.text?.trim() || "";
-      let description = doc.querySelector(".book-intro, .intro, .description")?.text?.trim() || "";
-      let update = doc.querySelector(".last-chapter, .update-chapter")?.text?.trim() || "";
-      let status = doc.querySelector(".book-status, .status")?.text?.trim() || "";
+      let title = doc.querySelector(".detail-main-info-title")?.text?.trim() || id;
+      let cover = doc.querySelector(".detail-main-cover img")?.attributes?.src || "";
+      let author = doc.querySelector(".detail-main-info-author a")?.text?.trim() || "";
+      let description = doc.querySelector(".detail-desc")?.text?.trim() || "";
+      let update = doc.querySelector(".detail-bottom-btn.chapter-item")?.text?.trim() || "";
+      
+      // 获取标签
+      let tags = [];
+      let classLinks = doc.querySelectorAll(".detail-main-info-class a");
+      for (let link of classLinks) {
+        tags.push(link.text.trim());
+      }
       
       // 章节列表
       let chapters = new Map();
-      let chapterLinks = doc.querySelectorAll("#chapter-list a, .chapter-list a, .catalog a");
+      let chapterLinks = doc.querySelectorAll(".detail-list-1.detail-list-select .chapteritem");
       let i = 0;
       for (let link of chapterLinks) {
         let href = link.attributes.href;
@@ -129,24 +148,64 @@ class DM5 extends ComicSource {
 
       return new ComicDetails({
         title, cover: this.fixUrl(cover),
-        description, tags: { 作者: [author], 状态: [status], 更新: [update] },
+        description, tags: { 作者: [author], 分类: tags, 更新: [update] },
         chapters, updateTime: update
       });
     },
 
     loadEp: async (comicId, epId) => {
-      let url = `${this.baseUrl}/${comicId}/${epId}.html`;
+      let url = `${this.baseUrl}/m${epId}/`;
       let res = await Network.get(url, this.headers);
-      if (res.status !== 200) throw `章节加载失败: ${res.status}`;
-      let doc = new HtmlDocument(res.body);
-      
-      let images = [];
-      let imgNodes = doc.querySelectorAll("#chapter-images img, .chapter-content img, .read-content img");
-      for (let img of imgNodes) {
-        let src = img.attributes["data-src"] || img.attributes["src"] || "";
-        if (src) images.push(this.fixUrl(src));
+      if (res.status !== 200) {
+        url = `${this.baseUrl}/manhua-${comicId}/${epId}.html`;
+        res = await Network.get(url, this.headers);
       }
-      return { images };
+      if (res.status !== 200) throw `章节加载失败: ${res.status}`;
+      
+      // DM5 使用 JS 动态生成图片 URL，需要执行 JS 解密
+      // 从页面脚本中提取 newImgs 数组
+      let html = res.body;
+      
+      // 尝试从 eval 代码中提取图片列表
+      let images = [];
+      
+      // 方法1: 直接查找 newImgs 变量
+      const newImgsMatch = html.match(/var newImgs\s*=\s*(\[[\s\S]*?\]);/);
+      if (newImgsMatch) {
+        try {
+          images = JSON.parse(newImgsMatch[1]);
+        } catch (e) {
+          // 尝试 eval
+          try {
+            const evalCode = `var newImgs = []; ${newImgsMatch[0]}; newImgs;`;
+            images = await compute(evalCode);
+          } catch (e2) {}
+        }
+      }
+      
+      // 方法2: 查找 eval 解码
+      if (images.length === 0) {
+        const evalMatch = html.match(/eval\(function\(p,a,c,k,e,d\)\{[\s\S]*?\}\)/);
+        if (evalMatch) {
+          try {
+            // 这个需要完整的解密逻辑，暂时回退到 DOM 解析
+          } catch (e) {}
+        }
+      }
+      
+      // 方法3: DOM 解析 (图片懒加载)
+      if (images.length === 0) {
+        let doc = new HtmlDocument(res.body);
+        let imgNodes = doc.querySelectorAll("#cp_img img, .view-main-1 img, .read-content img");
+        for (let img of imgNodes) {
+          let src = img.attributes["data-src"] || img.attributes["src"] || "";
+          if (src && src.includes("cdndm5.com")) {
+            images.push(this.fixUrl(src));
+          }
+        }
+      }
+      
+      return { images: images.map(img => this.fixUrl(img)) };
     }
   };
 }

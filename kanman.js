@@ -1,8 +1,8 @@
 /** @type {import('./_venera_.js')} */
 class Kanman extends ComicSource {
   name = "看漫画";
-  key = "kanman";
-  version = "1.0.0";
+    key = "kanman";
+    version = "1.0.1";
   minAppVersion = "1.6.0";
   url = "https://cdn.jsdelivr.net/gh/Wjavan/venera-next-sources@main/kanman.js";
 
