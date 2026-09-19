@@ -11,9 +11,9 @@ class YYManhua extends ComicSource {
       title: "选择域名",
       type: "select",
       options: [
-        { value: "https://www.yymanhua.com", text: "yymanhua.com (主站)" },
-        { value: "https://m.yymanhua.com", text: "m.yymanhua.com (移动端)" }
-      ],
+                { value: "https://m.yymanhua.com", text: "m.yymanhua.com" },
+                { value: "https://www.yymanhua.com", text: "www.yymanhua.com" }
+            ],
       default: "https://www.yymanhua.com"
     }
   };

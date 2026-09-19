@@ -26,13 +26,16 @@ class Baozi extends ComicSource {
       title: "主域名",
       type: "select",
       options: [
-        { value: "bzmgcn.com" },
-        { value: "baozimhcn.com" },
-        { value: "webmota.com" },
-        { value: "kukuc.co" },
-        { value: "twmanga.com" },
-        { value: "dinnerku.com" },
-      ],
+                { value: "baozimhcn.com", text: "baozimhcn.com" },
+                { value: "bzmgcn.com", text: "bzmgcn.com" },
+                { value: "dinnerku.com", text: "dinnerku.com" },
+                { value: "https://appcn.baozimh.com", text: "appcn.baozimh.com" },
+                { value: "https://cn.baozimhcn.com", text: "cn.baozimhcn.com" },
+                { value: "https://m.baozimh.one", text: "m.baozimh.one" },
+                { value: "kukuc.co", text: "kukuc.co" },
+                { value: "twmanga.com", text: "twmanga.com" },
+                { value: "webmota.com", text: "webmota.com" }
+            ],
       default: "bzmgcn.com",
     },
     cdn_domains: {

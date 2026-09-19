@@ -18,9 +18,9 @@ class ManHuaGui extends ComicSource {
       title: "选择域名",
       type: "select",
       options: [
-        { value: "https://www.manhuagui.com", text: "manhuagui.com (主站)" },
-        { value: "https://tw.manhuagui.com", text: "tw.manhuagui.com (繁体)" }
-      ],
+                { value: "https://tw.manhuagui.com", text: "tw.manhuagui.com" },
+                { value: "https://www.manhuagui.com", text: "www.manhuagui.com" }
+            ],
       default: "https://www.manhuagui.com"
     }
   };

@@ -11,9 +11,9 @@ class Komiic extends ComicSource {
       title: "选择域名",
       type: "select",
       options: [
-        { value: "https://komiic.com", text: "komiic.com (主站)" },
-        { value: "https://www.komiic.com", text: "www.komiic.com (备用)" }
-      ],
+                { value: "https://komiic.com", text: "komiic.com" },
+                { value: "https://www.komiic.com", text: "www.komiic.com" }
+            ],
       default: "https://komiic.com"
     }
   };

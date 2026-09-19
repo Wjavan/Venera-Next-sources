@@ -11,8 +11,8 @@ class Dashumanhua extends ComicSource {
       title: "选择域名",
       type: "select",
       options: [
-        { value: "https://www.dashumanhua.com", text: "https://www.dashumanhua.com (主站)" }
-      ],
+                { value: "https://www.dashumanhua.com", text: "www.dashumanhua.com" }
+            ],
       default: "https://www.dashumanhua.com"
     }
   };

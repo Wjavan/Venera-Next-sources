@@ -11,9 +11,9 @@ class Haoduoman extends ComicSource {
       title: "选择域名",
       type: "select",
       options: [
-        { value: "https://www.haoduoman.com", text: "www.haoduoman.com (PC主站)" },
-        { value: "https://m.haoduoman.com", text: "m.haoduoman.com (移动端)" }
-      ],
+                { value: "https://m.haoduoman.com", text: "m.haoduoman.com" },
+                { value: "https://www.haoduoman.com", text: "www.haoduoman.com" }
+            ],
       default: "https://www.haoduoman.com"
     }
   };

@@ -11,8 +11,8 @@ class XManhua extends ComicSource {
       title: "选择域名",
       type: "select",
       options: [
-        { value: "https://xmanhua.com", text: "https://xmanhua.com" }
-      ],
+                { value: "https://xmanhua.com", text: "xmanhua.com" }
+            ],
       default: "https://xmanhua.com"
     }
   };

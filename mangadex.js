@@ -6,6 +6,17 @@ class MangaDex extends ComicSource {
   minAppVersion = "1.6.0";
   url = "https://cdn.jsdelivr.net/gh/Wjavan/venera-next-sources@main/mangadex.js";
 
+  settings = {
+    domains: {
+      title: "选择域名",
+      type: "select",
+      options: [
+        { value: "https://mangadex.org", text: "https://mangadex.org (主站)" }
+      ],
+      default: "https://mangadex.org"
+    }
+  };
+
   apiUrl = "https://api.mangadex.org";
 
   get headers() {

@@ -329,41 +329,6 @@
         "description": "扑飞漫画 (pufeimh)"
     },
     {
-        "name": "百年漫画",
-        "key": "bainianmh2",
-        "fileName": "bainianmh2.js",
-        "version": "1.0.0",
-        "description": "百年漫画 (bainianmh) - 新版"
-    },
-    {
-        "name": "好多漫画",
-        "key": "haoduoman2",
-        "fileName": "haoduoman2.js",
-        "version": "1.0.0",
-        "description": "好多漫画 (haoduoman) - 新版"
-    },
-    {
-        "name": "嗨皮漫画",
-        "key": "happy2",
-        "fileName": "happy2.js",
-        "version": "1.0.0",
-        "description": "嗨皮漫画 (happy) - 新版"
-    },
-    {
-        "name": "包子漫画",
-        "key": "baozi2",
-        "fileName": "baozi2.js",
-        "version": "1.0.0",
-        "description": "包子漫画 (baozi) - 新版"
-    },
-    {
-        "name": "漫画柜繁体",
-        "key": "manhuaguitw",
-        "fileName": "manhuaguitw.js",
-        "version": "1.0.0",
-        "description": "漫画柜繁体 (manhuagui tw)"
-    },
-    {
         "name": "咪咕动漫",
         "key": "migudm",
         "fileName": "migudm.js",
@@ -390,20 +355,6 @@
         "fileName": "u17.js",
         "version": "1.0.0",
         "description": "有妖气 (u17)"
-    },
-    {
-        "name": "MangaDex",
-        "key": "mangadex2",
-        "fileName": "mangadex2.js",
-        "version": "1.0.0",
-        "description": "MangaDex (需登录)"
-    },
-    {
-        "name": "Komiic",
-        "key": "komiic2",
-        "fileName": "komiic2.js",
-        "version": "1.0.0",
-        "description": "Komiic (JS渲染)"
     },
     {
         "name": "ACG456",
@@ -453,13 +404,6 @@
         "fileName": "chuiyao.js",
         "version": "1.0.0",
         "description": "吹妖漫画 (chuiyao)"
-    },
-    {
-        "name": "大树漫画备用",
-        "key": "dashumanhua2",
-        "fileName": "dashumanhua2.js",
-        "version": "1.0.0",
-        "description": "大树漫画备用 (dashumanhua2)"
     },
     {
         "name": "丁漫画",
@@ -693,13 +637,6 @@
         "description": "仙漫网 (xianman123)"
     },
     {
-        "name": "X漫画备用",
-        "key": "xmanhua2",
-        "fileName": "xmanhua2.js",
-        "version": "1.0.0",
-        "description": "X漫画备用 (xmanhua2)"
-    },
-    {
         "name": "一本漫画",
         "key": "yibenmanhua",
         "fileName": "yibenmanhua.js",
@@ -712,13 +649,6 @@
         "fileName": "youdm.js",
         "version": "1.0.0",
         "description": "优动漫 (youdm)"
-    },
-    {
-        "name": "YY漫画备用",
-        "key": "yymanhua2",
-        "fileName": "yymanhua2.js",
-        "version": "1.0.0",
-        "description": "YY漫画备用 (yymanhua2)"
     },
     {
         "name": "知音漫客",

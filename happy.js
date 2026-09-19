@@ -658,6 +658,14 @@ class Happy extends ComicSource {
 
     // 设置功能配置
     settings = {
+    domains: {
+      title: "选择域名",
+      type: "select",
+      options: [
+        { value: "https://www.laimanhua88.com", text: "https://www.laimanhua88.com (主站)" }
+      ],
+      default: "https://www.laimanhua88.com"
+    },
         // 显示原图开关
         originalImage: {
             title: "阅读显示原图",
