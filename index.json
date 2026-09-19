@@ -173,5 +173,68 @@
         "fileName": "zaimanhua.js",
         "version": "1.0.2",
         "description": "再漫画 (zaimanhua)"
+    },
+    {
+        "name": "Komiic",
+        "key": "komiic",
+        "fileName": "komiic.js",
+        "version": "1.0.0",
+        "description": "Komiic"
+    },
+    {
+        "name": "YY漫画",
+        "key": "yymanhua",
+        "fileName": "yymanhua.js",
+        "version": "1.0.0",
+        "description": "YY漫画"
+    },
+    {
+        "name": "桂露莉漫画",
+        "key": "guiluoli",
+        "fileName": "guiluoli.js",
+        "version": "1.0.0",
+        "description": "桂露莉漫画"
+    },
+    {
+        "name": "读漫屋",
+        "key": "dumanwu",
+        "fileName": "dumanwu.js",
+        "version": "1.0.0",
+        "description": "读漫屋"
+    },
+    {
+        "name": "Mangabz",
+        "key": "mangabz",
+        "fileName": "mangabz.js",
+        "version": "1.0.0",
+        "description": "Mangabz"
+    },
+    {
+        "name": "漫画160",
+        "key": "mh160",
+        "fileName": "mh160.js",
+        "version": "1.0.0",
+        "description": "漫画160"
+    },
+    {
+        "name": "36漫画",
+        "key": "mh36",
+        "fileName": "mh36.js",
+        "version": "1.0.0",
+        "description": "36漫画"
+    },
+    {
+        "name": "X漫画",
+        "key": "xmanhua",
+        "fileName": "xmanhua.js",
+        "version": "1.0.0",
+        "description": "X漫画"
+    },
+    {
+        "name": "Colamanga",
+        "key": "colamanga",
+        "fileName": "colamanga.js",
+        "version": "1.0.0",
+        "description": "Colamanga"
     }
 ]
